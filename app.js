@@ -2,6 +2,8 @@ const app = Vue.createApp({
     data() {
         return {
           sitename: 'After School Classes',
+          sortBy: 'subject',
+          sortOrder: 'asc',
           lessons: [
             { id: 1, subject: 'Maths', location: 'Hendon', price: 100, spaces: 5, icon: 'fa-solid fa-calculator' },
             { id: 2, subject: 'English', location: 'Colindale', price: 80, spaces: 5, icon: 'fa-solid fa-book' },
@@ -15,6 +17,22 @@ const app = Vue.createApp({
             { id: 10, subject: 'Swimming', location: 'Colindale', price: 95, spaces: 5, icon: 'fa-solid fa-person-swimming' }
           ]
         };
-      }
+    },
+    computed: {
+        sortedLessons() {
+            const sorted = [...this.lessons];
+            sorted.sort((a, b) => {
+                let result;
+                if (typeof a[this.sortBy] === 'string') {
+                    result = a[this.sortBy].localeCompare(b[this.sortBy]);
+                } else {
+                    result = a[this.sortBy] - b[this.sortBy];
+                }
+                return this.sortOrder === 'asc' ? result : -result;
+            });
+            return sorted;
+        }
+    }
+
     });
     app.mount('#app');
