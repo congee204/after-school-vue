@@ -40,6 +40,9 @@
             <p class="card-text mb-1">Location: {{ lesson.location }}</p>
             <p class="card-text mb-1">Price: £{{ lesson.price }}</p>
             <p class="card-text">Spaces: {{ lesson.spaces }}</p>
+            <button class="btn btn-primary" @click="addToCart(lesson)" :disabled="lesson.spaces === 0">
+                Add to Cart
+            </button>
           </div>
         </div>
       </div>

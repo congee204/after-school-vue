@@ -4,6 +4,7 @@ const app = Vue.createApp({
           sitename: 'After School Classes',
           sortBy: 'subject',
           sortOrder: 'asc',
+          cart: [],
           lessons: [
             { id: 1, subject: 'Maths', location: 'Hendon', price: 100, spaces: 5, icon: 'fa-solid fa-calculator' },
             { id: 2, subject: 'English', location: 'Colindale', price: 80, spaces: 5, icon: 'fa-solid fa-book' },
@@ -31,6 +32,14 @@ const app = Vue.createApp({
                 return this.sortOrder === 'asc' ? result : -result;
             });
             return sorted;
+        }
+    },
+    methods: {
+        addToCart(lesson) {
+            if (lesson.spaces > 0) {
+                lesson.spaces--;
+                this.cart.push(lesson.id);
+            }
         }
     }
 
