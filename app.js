@@ -4,6 +4,7 @@ const app = Vue.createApp({
           sitename: 'After School Classes',
           sortBy: 'subject',
           sortOrder: 'asc',
+          showCart: false,
           cart: [],
           lessons: [
             { id: 1, subject: 'Maths', location: 'Hendon', price: 100, spaces: 5, icon: 'fa-solid fa-calculator' },
@@ -32,6 +33,12 @@ const app = Vue.createApp({
                 return this.sortOrder === 'asc' ? result : -result;
             });
             return sorted;
+        },
+        cartItems() {
+            return this.cart.map(id => this.lessons.find(lesson => lesson.id === id));
+        },
+        cartTotal() {
+            return this.cartItems.reduce((total, lesson) => total + lesson.price, 0);
         }
     },
     methods: {
@@ -39,6 +46,15 @@ const app = Vue.createApp({
             if (lesson.spaces > 0) {
                 lesson.spaces--;
                 this.cart.push(lesson.id);
+            }
+        },
+        removeFromCart(index) {
+            const id = this.cart[index];
+            const lesson = this.lessons.find(l => l.id === id);
+            lesson.spaces++;
+            this.cart.splice(index, 1);
+            if (this.cart.length === 0) {
+                this.showCart = false;
             }
         }
     }
