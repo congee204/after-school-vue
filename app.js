@@ -6,6 +6,9 @@ const app = Vue.createApp({
           sortOrder: 'asc',
           showCart: false,
           cart: [],
+          name: '',
+          phone:'',
+          orderSubmitted: false,
           lessons: [
             { id: 1, subject: 'Maths', location: 'Hendon', price: 100, spaces: 5, icon: 'fa-solid fa-calculator' },
             { id: 2, subject: 'English', location: 'Colindale', price: 80, spaces: 5, icon: 'fa-solid fa-book' },
@@ -39,6 +42,12 @@ const app = Vue.createApp({
         },
         cartTotal() {
             return this.cartItems.reduce((total, lesson) => total + lesson.price, 0);
+        },
+        isNameValid() {
+            return /^[A-Za-z\s]+$/.test(this.name);
+        },
+        isPhoneValid() {
+            return /^[0-9]+$/.test(this.phone);
         }
     },
     methods: {
@@ -56,6 +65,18 @@ const app = Vue.createApp({
             if (this.cart.length === 0) {
                 this.showCart = false;
             }
+        },
+        checkout() {
+            if (this.isNameValid && this.isPhoneValid) {
+                this.orderSubmitted = true;
+                this.cart = [];
+                this.name = '';
+                this.phone = '';
+            }
+        },
+        backToLessons() {
+            this.orderSubmitted = false;
+            this.showCart = false;
         }
     }
 
